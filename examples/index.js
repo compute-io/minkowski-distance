@@ -1,3 +1,3 @@
 'use strict';
 
-var module = require( './../lib' );
+var minkowski = require( './../lib' );

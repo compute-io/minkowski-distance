@@ -2,7 +2,7 @@ minkowski-distance
 ===
 [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coverage Status][coveralls-image]][coveralls-url] [![Dependencies][dependencies-image]][dependencies-url]
 
-> Computes the Minkowski distance between two sequences
+> Computes the Minkowski distance between two arrays
 
 
 ## Installation
@@ -17,18 +17,22 @@ For use in the browser, use [browserify](https://github.com/substack/node-browse
 ## Usage
 
 ``` javascript
-var foo = require( 'compute-minkowski-distance' );
+var minkowski = require( 'compute-minkowski-distance' );
 ```
 
-#### foo( arr )
+#### minkowski( x, y, p[, accessor] )
 
 What does this function do?
 
+<div align="center">
+	<img src="https://github.com/compute-io/minkowski-distance/blob/master/docs/img/eqn.png" alt="Formula of Minkowski Distance" height="64px">
+	<br>
+</div>
 
 ## Examples
 
 ``` javascript
-var foo = require( 'compute-minkowski-distance' );
+var minkowski = require( 'compute-minkowski-distance' );
 ```
 
 To run the example code from the top-level application directory,
@@ -69,7 +73,7 @@ $ make view-cov
 ---
 ## License
 
-[MIT license](http://opensource.org/licenses/MIT). 
+[MIT license](http://opensource.org/licenses/MIT).
 
 
 ## Copyright
