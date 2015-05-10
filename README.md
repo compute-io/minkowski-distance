@@ -76,6 +76,7 @@ If provided empty `arrays`, the function returns `null`.
 ## Examples
 
 ``` javascript
+var minkowski = require( 'compute-minkowski-distance' );
 
 var x = [
 	[1,2],
