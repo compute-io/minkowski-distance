@@ -102,11 +102,9 @@ describe( 'compute-minkowski-distance', function tests() {
 	});
 
 
-	it( 'should throw an error if the norm is not a positive number', function test() {
+	it( 'should throw an error if the norm is not a number', function test() {
 		var values = [
 				'5',
-				-5,
-				0,
 				null,
 				undefined,
 				NaN,
