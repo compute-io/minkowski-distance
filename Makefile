@@ -5,6 +5,14 @@
 # Set the node.js environment to test:
 NODE_ENV ?= test
 
+# Kernel name:
+KERNEL ?= $(shell uname -s)
+
+ifeq ($(KERNEL), Darwin)
+	OPEN ?= open
+else
+	OPEN ?= xdg-open
+endif
 
 # NOTES #
 
@@ -98,8 +106,7 @@ test-istanbul-mocha: node_modules
 view-cov: view-istanbul-report
 
 view-istanbul-report:
-	open $(ISTANBUL_HTML_REPORT_PATH)
-
+	$(OPEN) $(ISTANBUL_HTML_REPORT_PATH)
 
 
 # LINT #
@@ -112,7 +119,6 @@ lint-jshint: node_modules
 	$(JSHINT) \
 		--reporter $(JSHINT_REPORTER) \
 		./
-
 
 
 # NODE #
@@ -132,7 +138,6 @@ clean-node:
 
 
 # CLEAN #
-
 .PHONY: clean
 
 clean:
