@@ -25,15 +25,28 @@
   "keywords": [
     "compute.io",
     "compute",
-    "computation"
+    "computation",
+    "distance",
+    "similarity",
+    "information theory",
+    "mathematics",
+    "math",
+    "array",
+    "dist",
+    "difference",
+    "minkowski"
   ],
   "bugs": {
     "url": "https://github.com/compute-io/minkowski-distance/issues"
   },
-  "dependencies": {},
+  "dependencies": {
+    "validate.io-array": "^1.0.3",
+    "validate.io-function": "^1.0.2",
+    "validate.io-number": "^1.0.3"
+  },
   "devDependencies": {
-    "chai": "1.x.x",
-    "mocha": "1.x.x",
+    "chai": "2.x.x",
+    "mocha": "2.x.x",
     "coveralls": "^2.11.1",
     "istanbul": "^0.3.0",
     "jshint": "2.x.x",
