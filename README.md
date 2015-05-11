@@ -11,6 +11,12 @@ The [Minkowski distance](http://en.wikipedia.org/wiki/Minkowski_distance) define
 	<br>
 </div>
 
+Special cases:
+
+* 	When `p=1`, the distance is known as the [Manhattan distance](https://github.com/compute-io/manhattan-distance).
+* 	When `p=2`, the distance is known as the [Euclidean distance](https://github.com/compute-io/euclidean-distance).
+* 	In the limit that `p --> +infinity`, the distance is known as the [Chebyshev distance](https://github.com/compute-io/chebyshev-distance).
+
 
 ## Installation
 
@@ -41,13 +47,10 @@ var d = minkowski( x, y );
 
 The function accepts the following `options`:
 
-*	__p__: norm order (*p*>0). Special cases:
-	-	`p=1`: [Manhattan distance](http://en.wikipedia.org/wiki/Taxicab_geometry)
-	-	`p=2`: [Euclidean distance](http://en.wikipedia.org/wiki/Euclidean_distance)
-	-	`p=+infinity`: [Chebyshev distance](http://en.wikipedia.org/wiki/Chebyshev_distance) 
+*	__p__: norm order (`p > 0`).
 *	__accessor__: accessor function for accessing `array` values.
 
-By default, the norm order is `2` ([Euclidean distance](http://en.wikipedia.org/wiki/Euclidean_distance)). To specify a different order, set the `p` option.
+By default, the norm order is `2` ([Euclidean distance](https://github.com/compute-io/euclidean-distance)). To specify a different order, set the `p` option.
 
 ``` javascript
 var x = [ 2, 4, 5, 3, 8, 2 ],
@@ -96,40 +99,41 @@ The accessor `function` is provided three arguments:
 If provided empty `arrays`, the function returns `null`.
 
 
+## Notes
+
+__Warning__: only specific `p` values allow for proper consideration of overflow and underflow; i.e., [Euclidean](https://github.com/compute-io/euclidean-distance), [Manhattan](https://github.com/compute-io/manhattan-distance), and [Chebyshev](https://github.com/compute-io/chebyshev) distances. In the general case, you may overflow for large `p` values.
+
 
 ## Examples
 
 ``` javascript
 var minkowski = require( 'compute-minkowski-distance' );
 
-var x, y, d;
+var x = new Array( 100 ),
+	y = new Array( 100 );
 
-x = [
-	[1,2],
-	[2,4],
-	[3,5],
-	[4,3],
-	[5,8],
-	[6,2]
-];
-y = [
-	[1,3],
-	[2,1],
-	[3,5],
-	[4,3],
-	[5,7],
-	[6,2]
-];
-
-function getValue( d, i, j ) {
-	return d[ 1 ];
+for ( var i = 0; i < x.length; i++ ) {
+	x[ i ] = Math.round( Math.random()*100 );
+	y[ i ] = Math.round( Math.random()*100 );
 }
 
-var d = minkowski( x, y, {
-	'p': 1,
-	'accessor': getValue
-});
-// returns 5
+// Euclidean distance (default):
+console.log( minkowski( x, y ) );
+
+// Manhattan (city block) distance:
+console.log( minkowski( x, y, {
+	'p': 1
+}));
+
+// Chebyshev distance:
+console.log( minkowski( x, y, {
+	'p': Number.POSITIVE_INFINITY
+}));
+
+// Some other distance:
+console.log( minkowski( x, y, {
+	'p': 3
+}));
 ```
 
 To run the example code from the top-level application directory,

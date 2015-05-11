@@ -2,33 +2,28 @@
 
 var minkowski = require( './../lib' );
 
-var x, y, d;
+var x = new Array( 100 ),
+	y = new Array( 100 );
 
-x = [
-	[1,2],
-	[2,4],
-	[3,5],
-	[4,3],
-	[5,8],
-	[6,2]
-];
-y = [
-	[1,3],
-	[2,1],
-	[3,5],
-	[4,3],
-	[5,7],
-	[6,2]
-];
-
-function getValue( d ) {
-	return d[ 1 ];
+for ( var i = 0; i < x.length; i++ ) {
+	x[ i ] = Math.round( Math.random()*100 );
+	y[ i ] = Math.round( Math.random()*100 );
 }
 
-d = minkowski( x, y, {
-	'p': 1,
-	'accessor': getValue
-});
+// Euclidean distance (default):
+console.log( minkowski( x, y ) );
 
-console.log( d );
-// returns 5
+// Manhattan (city block) distance:
+console.log( minkowski( x, y, {
+	'p': 1
+}));
+
+// Chebyshev distance:
+console.log( minkowski( x, y, {
+	'p': Number.POSITIVE_INFINITY
+}));
+
+// Some other distance:
+console.log( minkowski( x, y, {
+	'p': 3
+}));
