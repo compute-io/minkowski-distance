@@ -6,8 +6,8 @@ Minkowski Distance
 
 The [Minkowski distance](http://en.wikipedia.org/wiki/Minkowski_distance) defines a distance between two points in a normed vector space.
 
-<div align="center">
-	<img src="https://github.com/compute-io/minkowski-distance/blob/master/docs/img/eqn.png" alt="Minkowski distance formula" height="64px">
+<div class="equation" align="center" data-raw-text="d(\mathbf{x},\mathbf{y}) = \left( \sum_{i=0}^{n-1}|x_i - y_i|^p \right )^{1/p}" data-equation=“eq:minkowski_distance”>
+	<img src="https://cdn.rawgit.com/compute-io/manhattan-distance/5610254d71a1ed646a35eb58c0ac717dbf5fc59a/docs/img/eqn.svg" alt="Minkowski distance formula">
 	<br>
 </div>
 
@@ -37,7 +37,7 @@ var minkowski = require( 'compute-minkowski-distance' );
 
 Computes the [Minkowski distance](http://en.wikipedia.org/wiki/Minkowski_distance) between two `arrays`.
 
-``` javascript 
+``` javascript
 var x = [ 2, 4, 5, 3, 8, 2 ],
 	y = [ 3, 1, 5, -3, 7, 2 ];
 
