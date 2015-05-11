@@ -2,14 +2,16 @@
 
 var minkowski = require( './../lib' );
 
-var x = [
+var x, y, d;
+
+x = [
 	[1,2],
 	[2,4],
 	[3,5],
 	[4,3],
 	[5,8],
 	[6,2]
-],
+];
 y = [
 	[1,3],
 	[2,1],
@@ -23,7 +25,10 @@ function getValue( d ) {
 	return d[ 1 ];
 }
 
-var dist = minkowski( x, y, 1, getValue );
-// returns 5
+d = minkowski( x, y, {
+	'p': 1,
+	'accessor': getValue
+});
 
-console.log( dist );
+console.log( d );
+// returns 5

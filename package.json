@@ -1,7 +1,7 @@
 {
   "name": "compute-minkowski-distance",
   "version": "0.0.0",
-  "description": "Computes the Minkowski distance between two sequences",
+  "description": "Computes the Minkowski distance between two arrays.",
   "author": {
     "name": "Philipp Burckhardt",
     "email": "pburckhardt@outlook.com"
@@ -10,6 +10,10 @@
     {
       "name": "Philipp Burckhardt",
       "email": "pburckhardt@outlook.com"
+    },
+    {
+      "name": "Athan Reines",
+      "email": "kgryte@gmail.com"
     }
   ],
   "scripts": {
@@ -34,7 +38,18 @@
     "array",
     "dist",
     "difference",
-    "minkowski"
+    "minkowski",
+    "metric",
+  	"vector",
+  	"euclidean",
+  	"manhattan",
+  	"city block",
+  	"rectilinear distance",
+  	"norm",
+  	"l1norm",
+  	"l2norm",
+  	"lpnorm",
+  	"chebyshev"
   ],
   "bugs": {
     "url": "https://github.com/compute-io/minkowski-distance/issues"
@@ -42,7 +57,8 @@
   "dependencies": {
     "validate.io-array": "^1.0.3",
     "validate.io-function": "^1.0.2",
-    "validate.io-number": "^1.0.3"
+    "validate.io-number-primitive": "^1.0.0",
+    "validate.io-object": "^1.0.3"
   },
   "devDependencies": {
     "chai": "2.x.x",

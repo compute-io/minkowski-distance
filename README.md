@@ -1,8 +1,15 @@
-minkowski-distance
+Minkowski Distance
 ===
 [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coverage Status][coveralls-image]][coveralls-url] [![Dependencies][dependencies-image]][dependencies-url]
 
-> Computes the [Minkowski distance](http://en.wikipedia.org/wiki/Minkowski_distance) between two arrays
+> Computes the [Minkowski distance](http://en.wikipedia.org/wiki/Minkowski_distance) between two arrays.
+
+The [Minkowski distance](http://en.wikipedia.org/wiki/Minkowski_distance) defines a distance between two points in a normed vector space.
+
+<div align="center">
+	<img src="https://github.com/compute-io/minkowski-distance/blob/master/docs/img/eqn.png" alt="Minkowski distance formula" height="64px">
+	<br>
+</div>
 
 
 ## Installation
@@ -20,26 +27,39 @@ For use in the browser, use [browserify](https://github.com/substack/node-browse
 var minkowski = require( 'compute-minkowski-distance' );
 ```
 
-#### minkowski( x, y, p[, accessor] )
+#### minkowski( x, y, [opts] )
 
-For two arrays of equal length `x` and `y`, this function returns the [Minkowski distance](http://en.wikipedia.org/wiki/Minkowski_distance) of order `p` between the two vectors, which is defined as
-
-<div align="center">
-	<img src="https://github.com/compute-io/minkowski-distance/blob/master/docs/img/eqn.png" alt="Formula of Minkowski Distance" height="64px">
-	<br>
-</div>
+Computes the [Minkowski distance](http://en.wikipedia.org/wiki/Minkowski_distance) between two `arrays`.
 
 ``` javascript 
 var x = [ 2, 4, 5, 3, 8, 2 ],
+	y = [ 3, 1, 5, -3, 7, 2 ];
+
+var d = minkowski( x, y );
+// returns ~6.86
+```
+
+The function accepts the following `options`:
+
+*	__p__: norm order (*p*>0). Special cases:
+	-	`p=1`: [Manhattan distance](http://en.wikipedia.org/wiki/Taxicab_geometry)
+	-	`p=2`: [Euclidean distance](http://en.wikipedia.org/wiki/Euclidean_distance)
+	-	`p=+infinity`: [Chebyshev distance](http://en.wikipedia.org/wiki/Chebyshev_distance) 
+*	__accessor__: accessor function for accessing `array` values.
+
+By default, the norm order is `2` ([Euclidean distance](http://en.wikipedia.org/wiki/Euclidean_distance)). To specify a different order, set the `p` option.
+
+``` javascript
+var x = [ 2, 4, 5, 3, 8, 2 ],
 	y = [ 3, 1, 5, 3, 7, 2 ];
 
-var dist = minkowski( x, y, 1 );
+var d = minkowski( x, y, {
+	'p': 1
+});
 // returns 5
 ```
 
-`p` can be any numeric value. For `p` being equal to 1, the Minkowski becomes the [Manhattan distance](http://en.wikipedia.org/wiki/Taxicab_geometry), whereas for a value of 2 it turns into the [Euclidean distance](http://en.wikipedia.org/wiki/Euclidean_distance). 
-
-To compute the [Minkowski distance](http://en.wikipedia.org/wiki/Minkowski_distance) between nested `array` values, provide an accessor `function` for accessing `numeric` values.
+For object `arrays`, provide an accessor `function` for accessing `numeric` values.
 
 ``` javascript
 var x = [
@@ -61,7 +81,9 @@ function getValue( d, i, j ) {
 	return d[ 1 ];
 }
 
-var dist = minkowski( x, y, 2, getValue );
+var dist = minkowski( x, y, {
+	'accessor': getValue
+});
 // returns 3
 ```
 
@@ -69,23 +91,27 @@ The accessor `function` is provided three arguments:
 
 -	__d__: current datum.
 -	__i__: current datum index.
--	__j__: array index; e.g., array `x` has index `0` and array `y` has index `1`.
+-	__j__: array index; e.g., array `x` has index `0`, and array `y` has index `1`.
 
 If provided empty `arrays`, the function returns `null`.
+
+
 
 ## Examples
 
 ``` javascript
 var minkowski = require( 'compute-minkowski-distance' );
 
-var x = [
+var x, y, d;
+
+x = [
 	[1,2],
 	[2,4],
 	[3,5],
 	[4,3],
 	[5,8],
 	[6,2]
-],
+];
 y = [
 	[1,3],
 	[2,1],
@@ -99,7 +125,10 @@ function getValue( d, i, j ) {
 	return d[ 1 ];
 }
 
-var dist = minkowski( x, y, 1, getValue );
+var d = minkowski( x, y, {
+	'p': 1,
+	'accessor': getValue
+});
 // returns 5
 ```
 

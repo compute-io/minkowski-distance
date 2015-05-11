@@ -24,7 +24,7 @@ describe( 'compute-minkowski-distance', function tests() {
 		expect( minkowski ).to.be.a( 'function' );
 	});
 
-	it( 'should throw an error if x is provided a non-array', function test() {
+	it( 'should throw an error if not provided an array as the first input argument', function test() {
 		var values = [
 			'5',
 			5,
@@ -40,12 +40,12 @@ describe( 'compute-minkowski-distance', function tests() {
 		}
 		function badValue( value ) {
 			return function() {
-				minkowski( value, [ 1, 2, 3 ], 2 );
+				minkowski( value, [1,2,3] );
 			};
 		}
 	});
 
-	it( 'should throw an error if y is provided a non-array', function test() {
+	it( 'should throw an error if not provided an array as the second input argument', function test() {
 		var values = [
 			'5',
 			5,
@@ -61,21 +61,57 @@ describe( 'compute-minkowski-distance', function tests() {
 		}
 		function badValue( value ) {
 			return function() {
-				minkowski( [ 2, 3, 4 ], value, 2 );
+				minkowski( [2,3,4], value );
 			};
 		}
 	});
 
-	it( 'should throw an error if the two input arguments are not the same length', function test() {
-		expect( badValue( [ 1, 2, 3 ], [ 1, 2, 3, 4 ] ) ).to.throw( Error );
-		function badValue( val1, val2 ) {
+	it( 'should throw an error if provided an options argument which is not an object', function test() {
+		var values = [
+			'5',
+			5,
+			true,
+			undefined,
+			null,
+			NaN,
+			function(){},
+			[]
+		];
+		for ( var i = 0; i < values.length; i++ ) {
+			expect( badValue( values[i] ) ).to.throw( TypeError );
+		}
+		function badValue( value ) {
 			return function() {
-				minkowski( val1, val2, 2 );
+				minkowski( [2,3,4], [3,4,5], value );
 			};
 		}
 	});
 
-	it( 'should throw an error if provided an accessor argument which is not a function', function test() {
+	it( 'should throw an error if provided a `p` option which is not a positive number primitive', function test() {
+		var values = [
+			'5',
+			-5,
+			0,
+			true,
+			undefined,
+			null,
+			NaN,
+			function(){},
+			[]
+		];
+		for ( var i = 0; i < values.length; i++ ) {
+			expect( badValue( values[i] ) ).to.throw( TypeError );
+		}
+		function badValue( value ) {
+			return function() {
+				minkowski( [2,3,4], [3,4,5], {
+					'p': value
+				});
+			};
+		}
+	});
+
+	it( 'should throw an error if provided an accessor option which is not a function', function test() {
 		var values = [
 			'5',
 			5,
@@ -86,67 +122,66 @@ describe( 'compute-minkowski-distance', function tests() {
 			{},
 			[]
 		];
-
 		for ( var i = 0; i < values.length; i++ ) {
 			expect( badValue( values[i] ) ).to.throw( TypeError );
 		}
 		function badValue( value ) {
 			return function() {
-				minkowski( [ 2, 3, 4 ], [ 2, 4, 1 ], 2, value );
+				minkowski( [2,3,4], [3,4,5], {
+					'accessor': value
+				});
+			};
+		}
+	});
+
+	it( 'should throw an error if the input arrays are not the same length', function test() {
+		expect( badValue( [ 1, 2, 3 ], [ 1, 2, 3, 4 ] ) ).to.throw( Error );
+		function badValue( val1, val2 ) {
+			return function() {
+				minkowski( val1, val2 );
 			};
 		}
 	});
 
 	it( 'should return null if provided empty arrays', function test() {
-		assert.isNull( minkowski( [], [], 2 ) );
-	});
-
-
-	it( 'should throw an error if the norm is not a number', function test() {
-		var values = [
-				'5',
-				null,
-				undefined,
-				NaN,
-				true,
-				{},
-				function(){}
-			];
-
-		for ( var i = 0; i < values.length; i++ ) {
-			expect( badValue( values[i] ) ).to.throw( TypeError );
-		}
-
-		function badValue( value ) {
-			return function() {
-				minkowski( [ 1, 2, 3 ], [ 2, 3, 1 ], value );
-			};
-		}
+		assert.isNull( minkowski( [], [] ) );
 	});
 
 	it( 'should compute the Minkowski distance', function test() {
 		var dat1, dat2, expected, actual;
 
+		// Norm: 1
 		dat1 = [ 2, 4, 5, 3, 8, 2 ];
 		dat2 = [ 3, 1, 5, 3, 7, 2 ];
-		actual = minkowski( dat1, dat2, 1 );
+
+		actual = minkowski( dat1, dat2, {
+			'p': 1
+		});
 		expected = 5;
 
-		assert.strictEqual( actual, expected );
+		assert.strictEqual( actual, expected, 'norm: 1' );
 
+		// Norm: 2
 		dat1 = [ 2, 4, 5, 3, 8, 2 ];
 		dat2 = [ 3, 1, 5, -3, 7, 2 ];
-		actual = minkowski( dat1, dat2, 2 );
+
+		actual = minkowski( dat1, dat2, {
+			'p': 2
+		});
 		expected = 6.855655;
 
-		assert.ok( Math.abs( actual - expected ) < 1e-5 );
+		assert.closeTo( actual, expected, 1e-6, 'norm: 2' );
 
+		// Norm: 3
 		dat1 = [ 2, 4, 5, 3, 8, 2 ];
 		dat2 = [ 3, 1, 5, -3, 0, 2 ];
-		actual = minkowski( dat1, dat2, 3 );
+
+		actual = minkowski( dat1, dat2, {
+			'p': 3
+		});
 		expected = 9.109767;
 
-		assert.ok( Math.abs( actual - expected ) < 1 ) ;
+		assert.closeTo( actual, expected, 1e-6, 'norm: 3' ) ;
 	});
 
 	it( 'should compute the Minkowski distance using an accessor function', function test() {
@@ -169,7 +204,10 @@ describe( 'compute-minkowski-distance', function tests() {
 			[6,2]
 		];
 
-		actual = minkowski( dat1, dat2, 1, getValue );
+		actual = minkowski( dat1, dat2, {
+			'p': 1,
+			'accessor': getValue
+		});
 		expected = 5;
 
 		assert.strictEqual( actual, expected );
@@ -177,6 +215,20 @@ describe( 'compute-minkowski-distance', function tests() {
 		function getValue( d ) {
 			return d[ 1 ];
 		}
+	});
+
+	it( 'should compute the Euclidean distance by default', function test() {
+		var dat1, dat2, expected, actual;
+
+		dat1 = [ 2, 4, 5, 3, 8, 2 ];
+		dat2 = [ 3, 1, 5, -3, 7, 2 ];
+
+		actual = minkowski( dat1, dat2, {
+			'p': 2
+		});
+		expected = minkowski( dat1, dat2 );
+
+		assert.strictEqual( actual, expected );
 	});
 
 });
