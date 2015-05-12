@@ -259,7 +259,6 @@ describe( 'compute-minkowski-distance', function tests() {
 
 		assert.closeTo( actual, expected, 1e-6, 'norm: Infinity' );
 
-
 		function getValue( d ) {
 			return d[ 1 ];
 		}

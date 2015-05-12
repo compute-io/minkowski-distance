@@ -7,7 +7,7 @@ Minkowski Distance
 The [Minkowski distance](http://en.wikipedia.org/wiki/Minkowski_distance) defines a distance between two points in a normed vector space.
 
 <div class="equation" align="center" data-raw-text="d(\mathbf{x},\mathbf{y}) = \left( \sum_{i=0}^{n-1}|x_i - y_i|^p \right )^{1/p}" data-equation="eq:minkowski_distance">
-	<img src="https://cdn.rawgit.com/compute-io/manhattan-distance/5610254d71a1ed646a35eb58c0ac717dbf5fc59a/docs/img/eqn.svg" alt="Minkowski distance formula">
+	<img src="https://cdn.rawgit.com/compute-io/minkowski-distance/77475c73614385d8ae28532f8ec111d2abf9e191/docs/img/eqn.svg" alt="Minkowski distance formula">
 	<br>
 </div>
 
