@@ -40,7 +40,9 @@ describe( 'compute-minkowski-distance', function tests() {
 		}
 		function badValue( value ) {
 			return function() {
-				minkowski( value, [1,2,3] );
+				minkowski( value, [1,2,3], {
+					'p': 3
+				});
 			};
 		}
 	});
@@ -61,7 +63,9 @@ describe( 'compute-minkowski-distance', function tests() {
 		}
 		function badValue( value ) {
 			return function() {
-				minkowski( [2,3,4], value );
+				minkowski( [2,3,4], value, {
+					'p': 3
+				});
 			};
 		}
 	});
@@ -138,13 +142,17 @@ describe( 'compute-minkowski-distance', function tests() {
 		expect( badValue( [ 1, 2, 3 ], [ 1, 2, 3, 4 ] ) ).to.throw( Error );
 		function badValue( val1, val2 ) {
 			return function() {
-				minkowski( val1, val2 );
+				minkowski( val1, val2, {
+					'p': 3
+				});
 			};
 		}
 	});
 
 	it( 'should return null if provided empty arrays', function test() {
-		assert.isNull( minkowski( [], [] ) );
+		assert.isNull( minkowski( [], [], {
+			'p': 3
+		}) );
 	});
 
 	it( 'should compute the Minkowski distance', function test() {
@@ -182,6 +190,17 @@ describe( 'compute-minkowski-distance', function tests() {
 		expected = 9.109767;
 
 		assert.closeTo( actual, expected, 1e-6, 'norm: 3' ) ;
+
+		// Norm: Infinity
+		dat1 = [ 3, 1, 5, -3, 7, 2 ];
+		dat2 = [ 2, 4, 5, 3, 8, 2 ];
+
+		actual = minkowski( dat1, dat2, {
+			'p': Infinity
+		});
+		expected = 6;
+
+		assert.closeTo( actual, expected, 1e-6, 'norm: Infinity' ) ;
 	});
 
 	it( 'should compute the Minkowski distance using an accessor function', function test() {
@@ -204,6 +223,7 @@ describe( 'compute-minkowski-distance', function tests() {
 			[6,2]
 		];
 
+		// Norm: 1
 		actual = minkowski( dat1, dat2, {
 			'p': 1,
 			'accessor': getValue
@@ -211,6 +231,34 @@ describe( 'compute-minkowski-distance', function tests() {
 		expected = 5;
 
 		assert.strictEqual( actual, expected );
+
+		// Norm: 2
+		actual = minkowski( dat1, dat2, {
+			'p': 2,
+			'accessor': getValue
+		});
+		expected = 3.3166247;
+
+		assert.closeTo( actual, expected, 1e-6, 'norm: 2' );
+
+		// Norm: 3
+		actual = minkowski( dat1, dat2, {
+			'p': 3,
+			'accessor': getValue
+		});
+		expected = 3.072316825685847;
+
+		assert.closeTo( actual, expected, 1e-6, 'norm: 3' );
+
+		// Norm: Infinity
+		actual = minkowski( dat1, dat2, {
+			'p': Infinity,
+			'accessor': getValue
+		});
+		expected = 3;
+
+		assert.closeTo( actual, expected, 1e-6, 'norm: Infinity' );
+
 
 		function getValue( d ) {
 			return d[ 1 ];
