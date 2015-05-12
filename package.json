@@ -1,6 +1,6 @@
 {
   "name": "compute-minkowski-distance",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Computes the Minkowski distance between two arrays.",
   "author": {
     "name": "Philipp Burckhardt",
